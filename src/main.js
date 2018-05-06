@@ -7,22 +7,6 @@ import VueResource from 'vue-resource';
 import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
 
-// import { Header } from 'mint-ui';
-// Vue.component(Header.name, Header);
-//
-// import { Search } from 'mint-ui';
-// Vue.component(Search.name, Search);
-//
-// import { Tabbar, TabItem } from 'mint-ui';
-//
-// Vue.component(Tabbar.name, Tabbar);
-// Vue.component(TabItem.name, TabItem);
-//
-// import { Field } from 'mint-ui';
-// Vue.component(Field.name, Field);
-//
-// import { Button } from 'mint-ui';
-// Vue.component(Button.name, Button);
 
 // Vue.config.productionTip = false;
 //开启debug模式

@@ -1,7 +1,7 @@
 <template>
   <div id="musicSearch">
 
-    <div class="page-music-search">
+    <div class="page-music-search1">
 
       <mt-header title="搜索" class="return-header">
         <router-link to="/" slot="left">
@@ -9,29 +9,50 @@
         </router-link>
       </mt-header>
 
-
       <mt-field label="" placeholder="歌手/歌名/拼音" v-model="keywords" @keyup.enter.native="handleSearch(keywords)">
         <mt-button type="primary" @click.native="handleSearch(keywords)">搜索</mt-button>
       </mt-field>
 
-      <div v-bind:class="[musicList]"
-           v-infinite-scroll="loadMore"
-           infinite-scroll-disabled="false"
-           infinite-scroll-distance="10">
+    </div>
 
-        <span class="search-result-hd">{{ total }}</span>
 
-        <mt-cell
-          :title="item.SongName"
-          :label="item.SingerName"
-          v-for="item in list"
-          :value="item">
-          <!--<span>{{ item }}</span>&nbsp;&nbsp;-->
-          <span>试听</span>&nbsp;&nbsp;
-          <span>下载</span>
-        </mt-cell>
+    <!--<Play></Play>-->
 
-      </div>
+    <!--<component :is="cut"></component>-->
+    <!--<component v-bind:is="componentId"></component>-->
+
+
+    <div v-bind:class="[musicPlay]" id="vue-play">
+
+      <aplayer :autoplay="false"
+               :music=music
+               :showLrc="true"
+      />
+    </div>
+
+    <div v-bind:class="[musicList]"
+         v-infinite-scroll="loadMore"
+         infinite-scroll-disabled="false"
+         infinite-scroll-distance="10" class="page-music-search">
+
+      <span class="search-result-hd">{{ total }}</span>
+
+      <!--//SuperFileHash  SingerName-->
+      <mt-cell
+        :title="item.SongName"
+        :label="item.SingerName"
+        v-for="item in list"
+        :value="item">
+        <!--<span>{{ item }}</span>&nbsp;&nbsp;-->
+        <mt-button type="primary" @click.native="listenxx(item)">试听</mt-button>&nbsp;&nbsp;
+        <mt-button type="primary" @click.native="downloadMusic(item)">下载</mt-button>
+        <!--http://fs.w.kugou.com/201805062102/1a2351fc075911411aa4a06f35576769/G124/M03/05/17/HIcBAFqyEB-ALC1lABwX_Ths3h0040.mp3-->
+        <!--<a href="javascript:;"  @click.native="downloadMusic(item)">下载</a>-->
+        <a download="mp3" href="" target="blank" id="download-mp3"></a>
+
+        <!--<span @click.native="listenxx(item.FileHash,item.SongName,item.SingerName)">试听</span>&nbsp;&nbsp;-->
+        <!--<span>下载</span>-->
+      </mt-cell>
 
     </div>
 
@@ -40,18 +61,34 @@
 </template>
 
 <script type="text/javascript">
+
   import APILIST from '../../src/API_LIST.js';
   import {Indicator} from 'mint-ui';
 
+  import VueAplayer from 'vue-aplayer';
+  import Play from './Play.vue';
+
   export default {
+    //   component('test-x', {
+    //   template: '<div>Home component</div>'
+    // });
+
+    components: {
+      'aplayer': VueAplayer,
+      Play,
+      'test-x': {
+        template: 'Home component',
+      },
+    },
 
     data() {
       return {
-        result: [
-          {title: 'Runoob', value: 1},
-          {title: 'Google', value: 2},
-          {title: 'Taobao', value: 3}
-        ],
+        music: {
+          // title: '',
+          // artist: '',
+          src: 'xxxxxxxxxxx',
+          // pic: ''
+        },
         keywords: '', // 一定得初始化？？？
         list: [],
         musicList: 'music-list',
@@ -59,6 +96,14 @@
         total_count: 0,
         pageSize: '10',
         page: 1,
+        musicPlay: 'music-play',
+        mp3_url: '',
+      }
+    },
+
+    computed: {
+      componentId: function () {
+        return 'test-x';
       }
     },
 
@@ -68,8 +113,17 @@
         this.musicList = '';
         // Lambda写法
         this.$http.get(APILIST.SEARCH_SONG, {
-          params: {keyword: keywords},
+          params: {keyword: keywords, pagesize: 20},
           before: function () {
+            // APILIST.stopBodyScroll(true);
+
+            $(document).ready(function () {
+              $(document.body).css({
+                "overflow-y": "hidden"
+              });
+            });
+
+
             Indicator.open({
               text: '加载中...',
               spinnerType: 'fading-circle'
@@ -82,13 +136,69 @@
           this.pageSize = response.data.data.pagesize;
           this.page = response.data.data.page;
           Indicator.close();
-          // alert(response.data.data.total);
-          // 响应成功回调
+          $(document).ready(function () {
+            $(document.body).css({
+              "overflow-y": "auto"
+            });
+          });
         }, (response) => {
           // 响应错误回调
         });
 
       },
+
+      listenxx: function (item) {
+        // alert(hash);
+        //item.FileHash,item.SongName,item.SingerName
+        const hash = item.FileHash;
+        const SongName = item.SongName;
+        const SingerName = item.SingerName;
+        console.log(hash);
+
+        this.$http.get(APILIST.LISTEN_SONG, {
+          params: {hash: hash},
+        }).then((response) => {
+          this.music = {
+            title: SongName,
+            artist: SingerName,
+            src: response.data.data.info.data.play_url,
+            pic: response.data.data.info.data.img,
+            lrc: response.data.data.info.data.lyrics,
+          };
+          console.log(this.music);
+          this.musicPlay = '';
+
+          $(document).ready(function () {
+            $(".aplayer-pic").click();
+          });
+
+        }, (response) => {
+          // 响应错误回调
+        });
+
+      },
+
+      downloadMusic: function (item) {
+        const hash = item.FileHash;
+        console.log(hash);
+        this.$http.get(APILIST.DOWNLOAD_SONG, {
+          params: {hash: hash},
+        }).then((response) => {
+          this.mp3_url = response.data.data.play_url;
+
+          var a = document.getElementById("download-mp3");
+          a.href = response.data.data.play_url;
+          a.download = response.data.data.mp3_name;
+          // alert(a.href);
+          // alert(a.download);
+          a.click();
+
+        }, (response) => {
+          // 响应错误回调
+        });
+
+      },
+
 
       loadMore() {
         this.loading = true;
@@ -97,7 +207,7 @@
             this.page = 1;
             this.list = [];
             this.loading = false;
-          }, 1000);
+          }, 100);
         } else {
           setTimeout(() => {
             const totalPage = (this.total_count + this.pageSize - 1) / this.pageSize;
@@ -107,8 +217,14 @@
             const i = this.page + 1;
 
             this.$http.get(APILIST.SEARCH_SONG, {
-              params: {keyword: this.keywords, page: i},
+              params: {keyword: this.keywords, pagesize: 20, page: i},
               before: function (request) {
+                // APILIST.stopBodyScroll(true);
+                $(document).ready(function () {
+                  $(document.body).css({
+                    "overflow-y": "hidden"
+                  });
+                });
                 Indicator.open({
                   text: '加载中...',
                   spinnerType: 'fading-circle'
@@ -116,15 +232,23 @@
               }
             }).then((response) => {
 
+
               this.list = this.list.concat(response.data.data.lists);
-              this.page = this.page + 1;
+              this.page = response.data.data.page;
               Indicator.close();
+              // APILIST.stopBodyScroll(false);
+              $(document).ready(function () {
+                $(document.body).css({
+                  "overflow-y": "auto"
+                });
+              });
+
 
             }, (response) => {
               // 响应错误回调
             });
             this.loading = false;
-          }, 1000);
+          }, 100);
         }
 
       },
@@ -144,8 +268,13 @@
     position: absolute;
   }
 
+  .page-music-search1 {
+    margin-top: 32px;
+    /*min-height: 120vh;*/
+  }
+
   .page-music-search {
-    margin-top: 50px;
+    /*margin-top: 50px;*/
     min-height: 120vh;
   }
 
@@ -157,6 +286,11 @@
 
   .music-list {
     visibility: hidden;
+  }
+
+  .music-play {
+    visibility: hidden;
+    display: none;
   }
 
   .search-result-hd {
