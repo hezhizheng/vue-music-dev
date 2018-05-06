@@ -10,7 +10,10 @@
       </mt-header>
 
       <mt-field label="" placeholder="歌手/歌名/拼音" v-model="keywords" @keyup.enter.native="handleSearch(keywords)">
-        <mt-button type="primary" @click.native="handleSearch(keywords)">搜索</mt-button>
+        <!--<button type="button"  @click.native="handleSearch(keywords)">搜索</button>-->
+        <mt-button style="background-color:rgba(0,0,0,0); box-shadow:none;" type="default" icon="search"
+                   @click.native="handleSearch(keywords)">搜索
+        </mt-button>
       </mt-field>
 
     </div>
@@ -44,8 +47,17 @@
         v-for="item in list"
         :value="item">
         <!--<span>{{ item }}</span>&nbsp;&nbsp;-->
-        <mt-button type="primary" @click.native="listenxx(item)">试听</mt-button>&nbsp;&nbsp;
-        <mt-button type="primary" @click.native="downloadMusic(item)">下载</mt-button>
+        <!--<a @click.native="listenxx(item)">试听</a>&nbsp;&nbsp;-->
+        <mt-button style="background-color:rgba(0,0,0,0); box-shadow:none;" type="default"
+                   @click.native="listenxx(item)">
+          <img src="../../static/img/MB_listen_256px_559571_easyicon.net.png" height="30" width="30" slot="icon">
+          <!--试听-->
+        </mt-button>&nbsp;&nbsp;
+        <mt-button icon="download" style="background-color:rgba(0,0,0,0); box-shadow:none;" type="default"
+                   @click.native="downloadMusic(item)">
+          <img src="../../static/img/download.png" height="30" width="30" slot="icon">
+          <!--下载-->
+        </mt-button>
         <!--http://fs.w.kugou.com/201805062102/1a2351fc075911411aa4a06f35576769/G124/M03/05/17/HIcBAFqyEB-ALC1lABwX_Ths3h0040.mp3-->
         <!--<a href="javascript:;"  @click.native="downloadMusic(item)">下载</a>-->
         <a download="mp3" href="" target="blank" id="download-mp3"></a>
@@ -86,7 +98,7 @@
         music: {
           // title: '',
           // artist: '',
-          src: 'xxxxxxxxxxx',
+          src: 'http://singerimg.kugou.com/uploadpic/softhead/400/20160426/20160426113219514.jpg',
           // pic: ''
         },
         keywords: '', // 一定得初始化？？？
