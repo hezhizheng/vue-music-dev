@@ -125,7 +125,7 @@
         this.musicList = '';
         // Lambda写法
         this.$http.get('/search-song', {
-          params: {keyword: keywords, pagesize: 20, page: '1'},
+          params: {keyword: keywords, pagesize: 20, page: '1', platform: 'WebFilter'},
           before: function () {
             // APILIST.stopBodyScroll(true);
 
@@ -168,7 +168,7 @@
         console.log(hash);
 
         this.$http.get('/music-info?r=play/getdata', {
-          params: {hash: hash, },
+          params: {hash: hash,},
         }).then((response) => {
           this.music = {
             title: SongName,
@@ -197,7 +197,7 @@
         const hash = item.FileHash;
         console.log(hash);
         this.$http.get('/music-info?r=play/getdata', {
-          params: { hash: hash,},
+          params: {hash: hash,},
         }).then((response) => {
           this.mp3_url = response.data.data.play_url;
 
