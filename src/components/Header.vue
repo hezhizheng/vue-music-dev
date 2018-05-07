@@ -1,6 +1,6 @@
 <template>
   <div id="musicHeader">
-    <mt-header fixed title="DexterHo">
+    <mt-header fixed title="@www.hezhizheng.com">
 
       <router-link to="/" slot="left">
         <img class="logo" src="http://m.kugou.com/v3/static/images/index/logo.png">

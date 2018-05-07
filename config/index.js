@@ -10,7 +10,24 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/search-song': {
+        target: 'http://songsearch.kugou.com/song_search_v2',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/search-song': '/search-song'
+        }
+      },
+
+      '/music-info': {
+        target: 'http://www.kugou.com/yy/index.php',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/music-info': '/music-info'
+        }
+      },
+
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
@@ -20,7 +37,7 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */

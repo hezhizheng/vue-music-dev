@@ -15,6 +15,7 @@
   "dependencies": {
     "bootstrap-vue": "^2.0.0-rc.9",
     "element-ui": "^2.3.7",
+    "hls.js": "^0.9.1",
     "mint-ui": "^2.2.13",
     "vue": "^2.5.2",
     "vue-aplayer": "^1.5.1",

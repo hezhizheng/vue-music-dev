@@ -124,8 +124,8 @@
         console.log(keywords);
         this.musicList = '';
         // Lambda写法
-        this.$http.get(APILIST.SEARCH_SONG, {
-          params: {keyword: keywords, pagesize: 20},
+        this.$http.get('/search-song', {
+          params: {keyword: keywords, pagesize: 20, page: '1'},
           before: function () {
             // APILIST.stopBodyScroll(true);
 
@@ -167,15 +167,18 @@
         const SingerName = item.SingerName;
         console.log(hash);
 
-        this.$http.get(APILIST.LISTEN_SONG, {
-          params: {hash: hash},
+        this.$http.get('/music-info?r=play/getdata', {
+          params: {hash: hash, },
         }).then((response) => {
           this.music = {
             title: SongName,
             artist: SingerName,
-            src: response.data.data.info.data.play_url,
-            pic: response.data.data.info.data.img,
-            lrc: response.data.data.info.data.lyrics,
+            // src: response.data.data.info.data.play_url,
+            // pic: response.data.data.info.data.img,
+            // lrc: response.data.data.info.data.lyrics,
+            src: response.data.data.play_url,
+            pic: response.data.data.img,
+            lrc: response.data.data.lyrics,
           };
           console.log(this.music);
           this.musicPlay = '';
@@ -193,14 +196,14 @@
       downloadMusic: function (item) {
         const hash = item.FileHash;
         console.log(hash);
-        this.$http.get(APILIST.DOWNLOAD_SONG, {
-          params: {hash: hash},
+        this.$http.get('/music-info?r=play/getdata', {
+          params: { hash: hash,},
         }).then((response) => {
           this.mp3_url = response.data.data.play_url;
 
           var a = document.getElementById("download-mp3");
           a.href = response.data.data.play_url;
-          a.download = response.data.data.mp3_name;
+          a.download = response.data.data.song_name;
           // alert(a.href);
           // alert(a.download);
           a.click();
@@ -228,7 +231,7 @@
             // console.log(totalPage);
             const i = this.page + 1;
 
-            this.$http.get(APILIST.SEARCH_SONG, {
+            this.$http.get('/search-song', {
               params: {keyword: this.keywords, pagesize: 20, page: i},
               before: function (request) {
                 // APILIST.stopBodyScroll(true);
