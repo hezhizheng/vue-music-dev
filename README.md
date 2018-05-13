@@ -1,30 +1,28 @@
 # vue-music-dev
 
-> A Vue.js project
+> vue-cli、mint-ui实现的搜歌&试听&下载的功能
 
-## Build Setup
+> [线上演示地址](http://music.hezhizheng.com/#/search)
 
+## 本地开发使用
 ``` bash
-# install dependencies
+# 安装依赖包
 npm install
 
-# serve with hot reload at localhost:8080
+# 本地运行项目
 npm run dev
 
-# build for production with minification
+# 打包
 npm run build
 
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## 线上部署 Nginx
+#### 反向代理
+``` bash
+location ^~/search-song/ {
+         proxy_pass   http://songsearch.kugou.com/song_search_v2;
+    }
+location ^~/music-info/ {
+         proxy_pass   http://www.kugou.com/yy/index.php;
+}
+```
