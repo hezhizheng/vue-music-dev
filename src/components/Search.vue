@@ -232,7 +232,7 @@
             const i = this.page + 1;
 
             this.$http.get('/search-song', {
-              params: {keyword: this.keywords, pagesize: 20, page: i},
+              params: {keyword: this.keywords, pagesize: 20, page: i,platform: 'WebFilter'},
               before: function (request) {
                 // APILIST.stopBodyScroll(true);
                 $(document).ready(function () {
