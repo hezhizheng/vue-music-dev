@@ -124,7 +124,7 @@
         console.log(keywords);
         this.musicList = '';
         // Lambda写法
-        this.$http.get('/search-song', {
+        this.$http.get('/search-song/song_search_v2', {
           params: {keyword: keywords, pagesize: 20, page: '1', platform: 'WebFilter'},
           before: function () {
             // APILIST.stopBodyScroll(true);
@@ -167,7 +167,7 @@
         const SingerName = item.SingerName;
         console.log(hash);
 
-        this.$http.get('/music-info?r=play/getdata', {
+        this.$http.get('/music-info/yy/index.php?r=play/getdata', {
           params: {hash: hash,},
         }).then((response) => {
           this.music = {
@@ -196,7 +196,7 @@
       downloadMusic: function (item) {
         const hash = item.FileHash;
         console.log(hash);
-        this.$http.get('/music-info?r=play/getdata', {
+        this.$http.get('/music-info/yy/index.php?r=play/getdata', {
           params: {hash: hash,},
         }).then((response) => {
           this.mp3_url = response.data.data.play_url;
@@ -231,7 +231,7 @@
             // console.log(totalPage);
             const i = this.page + 1;
 
-            this.$http.get('/search-song', {
+            this.$http.get('/search-song/song_search_v2', {
               params: {keyword: this.keywords, pagesize: 20, page: i,platform: 'WebFilter'},
               before: function (request) {
                 // APILIST.stopBodyScroll(true);

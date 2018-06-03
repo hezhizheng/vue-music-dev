@@ -12,18 +12,18 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/search-song': {
-        target: 'http://songsearch.kugou.com/song_search_v2',
+        target: 'http://songsearch.kugou.com',  // 点解变咗甘嘅写法，妖！！！ 原地址 http://songsearch.kugou.com/song_search_v2
         changeOrigin: true,
         pathRewrite: {
-          '^/search-song': '/search-song'
+          '^/search-song': ''
         }
       },
 
       '/music-info': {
-        target: 'http://www.kugou.com/yy/index.php',
+        target: 'http://www.kugou.com', // 原地址 http://www.kugou.com/yy/index.php
         changeOrigin: true,
         pathRewrite: {
-          '^/music-info': '/music-info'
+          '^/music-info': ''
         }
       },
 
