@@ -26,6 +26,15 @@ module.exports = {
           '^/music-info': ''
         }
       },
+      //http://fs.w.kugou.com/
+
+      '/kugou': {
+        target: 'http://fs.w.kugou.com',  // 这个都能代理，666
+        changeOrigin: true,
+        pathRewrite: {
+          '^/kugou': ''
+        }
+      },
 
     },
 

@@ -20,9 +20,12 @@ npm run build
 #### 反向代理
 ``` bash
 location ^~/search-song/ {
-         proxy_pass   http://songsearch.kugou.com/song_search_v2;
+         proxy_pass   http://songsearch.kugou.com/;
     }
 location ^~/music-info/ {
-         proxy_pass   http://www.kugou.com/yy/index.php;
+         proxy_pass   http://www.kugou.com/;
+}
+location ^~/kugou/ {
+	       proxy_pass   http://fs.w.kugou.com/;
 }
 ```
