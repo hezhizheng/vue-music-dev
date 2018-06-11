@@ -165,10 +165,11 @@
         const hash = item.FileHash;
         const SongName = item.SongName;
         const SingerName = item.SingerName;
+        const album_id = item.AlbumID;
         console.log(hash);
 
         this.$http.get('/music-info/yy/index.php?r=play/getdata', {
-          params: {hash: hash,},
+          params: {hash: hash,album_id:album_id},
         }).then((response) => {
           this.music = {
             title: SongName,
@@ -195,9 +196,10 @@
 
       downloadMusic: function (item) {
         const hash = item.FileHash;
+        const album_id = item.AlbumID;
         console.log(hash);
         this.$http.get('/music-info/yy/index.php?r=play/getdata', {
-          params: {hash: hash,},
+          params: {hash: hash,album_id:album_id},
         }).then((response) => {
           this.mp3_url = response.data.data.play_url;
 
