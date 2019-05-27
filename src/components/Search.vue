@@ -79,6 +79,7 @@
 
   import VueAplayer from 'vue-aplayer';
   import Play from './Play.vue';
+  import { MessageBox } from 'mint-ui';
 
   export default {
     //   component('test-x', {
@@ -169,8 +170,12 @@
         console.log(hash);
 
         this.$http.get('/music-info/yy/index.php?r=play/getdata', {
-          params: {hash: hash,album_id:album_id},
+          params: {hash: hash,mid:'1a0148508285c9ad'},
         }).then((response) => {
+          if ( response.data.data.play_url == '' )
+          {
+            MessageBox.alert('版权问题，不支持试听！', '提示'); return false;
+          }
           this.music = {
             title: SongName,
             artist: SingerName,
@@ -199,8 +204,14 @@
         const album_id = item.AlbumID;
         console.log(hash);
         this.$http.get('/music-info/yy/index.php?r=play/getdata', {
-          params: {hash: hash,album_id:album_id},
+          params: {hash: hash,mid:'1a0148508285c9ad'},
         }).then((response) => {
+
+          if ( response.data.data.play_url == '' )
+          {
+            MessageBox.alert('版权问题，不支持下载！', '提示'); return false;
+          }
+
           this.mp3_url = response.data.data.play_url;
 
           const mp3_url = response.data.data.play_url;

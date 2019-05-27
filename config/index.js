@@ -20,7 +20,7 @@ module.exports = {
       },
 
       '/music-info': {
-        target: 'http://www.kugou.com', // 原地址 http://www.kugou.com/yy/index.php
+        target: 'http://wwwapi.kugou.com',
         changeOrigin: true,
         pathRewrite: {
           '^/music-info': ''
@@ -29,7 +29,7 @@ module.exports = {
       //http://fs.w.kugou.com/
 
       '/kugou': {
-        target: 'http://fs.w.kugou.com',  // 这个都能代理，666
+        target: 'http://fs.w.kugou.com',  // 这个都能代理，666 这个没用，请忽视
         changeOrigin: true,
         pathRewrite: {
           '^/kugou': ''

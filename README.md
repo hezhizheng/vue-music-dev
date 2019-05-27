@@ -23,9 +23,6 @@ location ^~/search-song/ {
          proxy_pass   http://songsearch.kugou.com/;
     }
 location ^~/music-info/ {
-         proxy_pass   http://www.kugou.com/;
-}
-location ^~/kugou/ {
-	       proxy_pass   http://fs.w.kugou.com/;
+         proxy_pass   http://wwwapi.kugou.com/;
 }
 ```
