@@ -45,6 +45,7 @@
         :title="item.SongName"
         :label="item.SingerName"
         v-for="item in list"
+        :key="index"
         :value="item">
         <!--<span>{{ item }}</span>&nbsp;&nbsp;-->
         <!--<a @click.native="listenxx(item)">试听</a>&nbsp;&nbsp;-->
