@@ -2,7 +2,7 @@
 
 > vue-cli、mint-ui实现的搜歌&试听&下载的功能
 
-> [线上演示地址](http://music.hezhizheng.com/#/search)
+> [线上演示地址](http://music.hzz.cool/#/search)
 
 ## 本地开发使用
 ``` bash
